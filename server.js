@@ -2,8 +2,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const {graphqlHTTP} = require("express-graphql");
-const {makeExecutableSchema} = require("@graphql-tools/schema");
+const { graphqlHTTP } = require("express-graphql");
+const { makeExecutableSchema } = require("@graphql-tools/schema");
 
 const data = {
   warriors: [
@@ -31,22 +31,23 @@ type Query {
 `;
 
 const resolvers = {
-    Query: {
-        warriors: (obj, args, context) => context.warriors
-    },
+  Query: {
+    warriors: (obj, args, context) => context.warriors,
+  },
 };
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/graphql", graphqlHTTP({
+app.use(
+  "/graphql",
+  graphqlHTTP({
     schema: makeExecutableSchema({ typeDefs, resolvers }),
     context: data,
-    graphiql: true
-})
-    
-)
+    graphiql: true,
+  })
+);
 
 const port = 4000;
 
